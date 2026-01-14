@@ -1,5 +1,5 @@
 import 'package:fpdart/fpdart.dart';
-import '../entities/product.dart';
+// import '../entities/product.dart'; // Removed unused import
 import '../../../../core/error/failures.dart';
 
 abstract class ProductRepository {

@@ -13,6 +13,11 @@ import '../../features/profile/presentation/screens/wishlist_screen.dart';
 import '../../features/profile/presentation/screens/order_history_screen.dart';
 import '../../features/checkout/presentation/screens/checkout_screen.dart';
 import '../../features/checkout/presentation/screens/order_success_screen.dart';
+import '../../features/admin/presentation/screens/admin_login_screen.dart';
+import '../../features/admin/presentation/screens/admin_dashboard_screen.dart';
+import '../../features/admin/presentation/screens/admin_products_screen.dart';
+import '../../features/admin/presentation/screens/admin_orders_screen.dart';
+import '../../features/admin/presentation/widgets/admin_scaffold.dart';
 import '../widgets/scaffold_with_navbar.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -84,6 +89,31 @@ final appRouter = GoRouter(
       path: '/orders',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) => const OrderHistoryScreen(),
+    ),
+    
+    // Admin Routes
+    GoRoute(
+      path: '/admin/login',
+      builder: (context, state) => const AdminLoginScreen(),
+    ),
+    ShellRoute(
+      builder: (context, state, child) {
+        return AdminScaffold(child: child);
+      },
+      routes: [
+        GoRoute(
+          path: '/admin/dashboard',
+          builder: (context, state) => const AdminDashboardScreen(),
+        ),
+        GoRoute(
+          path: '/admin/products',
+          builder: (context, state) => const AdminProductsScreen(),
+        ),
+        GoRoute(
+          path: '/admin/orders',
+          builder: (context, state) => const AdminOrdersScreen(),
+        ),
+      ],
     ),
   ],
 );
