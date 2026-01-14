@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../../../core/widgets/product_card.dart';
+import '../providers/product_providers.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productsAsync = ref.watch(productsProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Discover'),
@@ -103,23 +107,32 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Product Grid
-            MasonryGridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _products.length,
-              itemBuilder: (context, index) {
-                final product = _products[index];
-                return ProductCard(
-                  id: product['id']!,
-                  title: product['title']!,
-                  price: product['price']!,
-                  imageUrl: product['image']!,
-                  onTap: () => context.go('/product/${product['id']}'),
-                ).animate().fadeIn(delay: (100 * index).ms).moveY(begin: 20, end: 0);
+            productsAsync.when(
+              data: (products) {
+                if (products.isEmpty) {
+                  return const Center(child: Text('No products found.'));
+                }
+                return MasonryGridView.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return ProductCard(
+                      id: product.id,
+                      title: product.title,
+                      price: '\$${product.price.toStringAsFixed(2)}',
+                      imageUrl: product.imageUrl,
+                      onTap: () => context.go('/product/${product.id}'),
+                    ).animate().fadeIn(delay: (100 * index).ms).moveY(begin: 20, end: 0);
+                  },
+                );
               },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Center(child: Text('Error: $err')),
             ),
           ],
         ),
@@ -130,11 +143,4 @@ class HomeScreen extends StatelessWidget {
 
 // Mock Data
 final List<String> _categories = ['All', 'Shoes', 'Clothes', 'Watches', 'Bags'];
-final List<Map<String, String>> _products = [
-  {'id': '1', 'title': 'Nike Air Max 270', 'price': '\$150.00', 'image': ''},
-  {'id': '2', 'title': 'Apple Watch Series 9', 'price': '\$399.00', 'image': ''},
-  {'id': '3', 'title': 'Leather Backpack', 'price': '\$89.00', 'image': ''},
-  {'id': '4', 'title': 'Denim Jacket', 'price': '\$65.00', 'image': ''},
-  {'id': '5', 'title': 'Wireless Headphones', 'price': '\$129.00', 'image': ''},
-  {'id': '6', 'title': 'Running Shoes', 'price': '\$95.00', 'image': ''},
-];
+

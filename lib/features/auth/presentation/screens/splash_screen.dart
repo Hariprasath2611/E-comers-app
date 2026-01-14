@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,6 +12,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
+
+
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
@@ -18,8 +21,12 @@ class _SplashScreenState extends State<SplashScreen> {
     // Simulate check auth or initialization
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        // Go to onboarding or home based on auth (TODO)
-        // context.go('/onboarding');
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+           context.go('/home');
+        } else {
+           context.go('/onboarding');
+        }
       }
     });
   }

@@ -1,12 +1,19 @@
+import 'package:ecommerce_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../auth/presentation/providers/auth_providers.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
+    final user = authState.value;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -28,17 +35,19 @@ class ProfileScreen extends StatelessWidget {
                       color: Theme.of(context).primaryColor.withAlpha((255 * 0.1).toInt()),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.person, size: 50, color: Theme.of(context).primaryColor),
+                    child: user?.photoURL != null
+                        ? ClipOval(child: Image.network(user!.photoURL!, fit: BoxFit.cover))
+                        : Icon(Icons.person, size: 50, color: Theme.of(context).primaryColor),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'John Doe',
+                    user?.displayName ?? 'User',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                   ),
                   const SizedBox(height: 4),
-                  Text('john.doe@example.com', style: Theme.of(context).textTheme.bodyMedium),
+                  Text(user?.email ?? 'No Email', style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
             ).animate().scale(),
@@ -77,7 +86,10 @@ class ProfileScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
               title: const Text('Logout', style: TextStyle(color: Colors.red)),
-              onTap: () => context.go('/login'),
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                if (context.mounted) context.go('/login');
+              },
             ),
           ],
         ),
