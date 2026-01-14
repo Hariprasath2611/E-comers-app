@@ -23,19 +23,23 @@ class ProductDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: const Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-            child: Icon(Icons.arrow_back, color: Colors.black),
-          ),
-          onPressed: () => context.pop(),
-        ),
+  icon: Container(
+    padding: EdgeInsets.all(8),
+    decoration: const BoxDecoration(
+      color: Colors.white,
+      shape: BoxShape.circle,
+    ),
+    child: const Icon(Icons.arrow_back, color: Colors.black),
+  ),
+  onPressed: () => context.pop(),
+),
+
         actions: [
           IconButton(
-             icon: const Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-            child: Icon(Icons.favorite_border, color: Colors.black),
+             icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+            child: const Icon(Icons.favorite_border, color: Colors.black),
           ),
             onPressed: () {},
           ),
