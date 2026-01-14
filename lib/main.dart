@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'core/config/theme.dart';
 import 'core/config/app_router.dart';
+import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart'; // User needs to generate this
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  // For now, we simulate init effectively for the code structure,
+  // as we cannot run flutterfire configure without user interaction.
+  await Firebase.initializeApp(); 
+  
   runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
+    const MyApp(),
   );
 }
 
