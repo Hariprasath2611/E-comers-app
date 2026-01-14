@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-functions",
+  "description": "Cloud Functions for E-Commerce App",
+  "dependencies": {
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "private": true
+}
