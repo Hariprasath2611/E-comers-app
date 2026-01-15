@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   // Brand Colors
-  static const Color primaryColor = Color(0xFF6750A4); // Deep Purple
-  static const Color secondaryColor = Color(0xFF625B71);
-  static const Color tertiaryColor = Color(0xFF7D5260);
+  static const Color primaryColor = Color(0xFFFF9800); // Orange
+  static const Color secondaryColor = Color(0xFFFFC107); // Yellow/Amber
+  static const Color tertiaryColor = Color(0xFF000000); // Black
 
   // Light Theme
   static ThemeData get lightTheme {
@@ -14,6 +14,8 @@ class AppTheme {
       brightness: Brightness.light,
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
+        secondary: secondaryColor,
+        tertiary: tertiaryColor,
         brightness: Brightness.light,
       ),
       textTheme: GoogleFonts.outfitTextTheme(),
@@ -61,12 +63,18 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      scaffoldBackgroundColor: Colors.black, // Pure black background
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
+        secondary: secondaryColor,
+        tertiary: tertiaryColor,
         brightness: Brightness.dark,
+        surface: Colors.black, // Ensure surfaces are acceptable on black
+        // Modify surfaceTint to avoid extensive tinting on black if desired, or let Material3 handle it.
       ),
       textTheme: GoogleFonts.outfitTextTheme(ThemeData.dark().textTheme),
       appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black,
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -91,7 +99,7 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
+          foregroundColor: Colors.black, // Black text on Orange button for better contrast
           minimumSize: const Size(double.infinity, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

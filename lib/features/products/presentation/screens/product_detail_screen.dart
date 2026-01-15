@@ -23,24 +23,23 @@ class ProductDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-  icon: Container(
-    padding: EdgeInsets.all(8),
-    decoration: const BoxDecoration(
-      color: Colors.white,
-      shape: BoxShape.circle,
-    ),
-    child: const Icon(Icons.arrow_back, color: Colors.black),
-  ),
-  onPressed: () => context.pop(),
-),
-
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.arrow_back, color: Theme.of(context).iconTheme.color ?? Theme.of(context).colorScheme.onSurface),
+          ),
+          onPressed: () => context.pop(),
+        ),
         actions: [
           IconButton(
-             icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-            child: const Icon(Icons.favorite_border, color: Colors.black),
-          ),
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(color: Theme.of(context).cardColor, shape: BoxShape.circle),
+              child: Icon(Icons.favorite_border, color: Theme.of(context).iconTheme.color ?? Theme.of(context).colorScheme.onSurface),
+            ),
             onPressed: () {},
           ),
         ],
@@ -52,17 +51,17 @@ class ProductDetailScreen extends StatelessWidget {
             Container(
               height: 400,
               width: double.infinity,
-              color: Colors.grey[200],
-              child: const Icon(Icons.image, size: 100, color: Colors.grey),
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              child: Icon(Icons.image, size: 100, color: Theme.of(context).disabledColor),
               // child: Image.network(imageUrl, fit: BoxFit.cover),
             ).animate().slideY(begin: -0.2, end: 0),
 
             // Content
             Container(
               transform: Matrix4.translationValues(0, -40, 0),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
               ),
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -73,7 +72,7 @@ class ProductDetailScreen extends StatelessWidget {
                       width: 50,
                       height: 5,
                       decoration: BoxDecoration(
-                        color: Colors.grey[300],
+                        color: Theme.of(context).dividerColor,
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
@@ -110,7 +109,7 @@ class ProductDetailScreen extends StatelessWidget {
                   Text(
                     description,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[600],
+                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
                       height: 1.5,
                     ),
                   ).animate().fadeIn(delay: 200.ms),
@@ -135,7 +134,7 @@ class ProductDetailScreen extends StatelessWidget {
                           width: 50,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade300),
+                            border: Border.all(color: Theme.of(context).dividerColor),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text('${index + 7}'), // US Sizes

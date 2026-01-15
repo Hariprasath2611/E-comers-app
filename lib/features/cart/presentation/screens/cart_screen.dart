@@ -76,8 +76,8 @@ class _CartScreenState extends State<CartScreen> {
                   background: Container(
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.only(right: 20),
-                    color: Colors.red[100],
-                    child: const Icon(Icons.delete_outline, color: Colors.red),
+                    color: Theme.of(context).colorScheme.errorContainer,
+                    child: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.onErrorContainer),
                   ),
                   onDismissed: (_) {
                     setState(() {
@@ -87,11 +87,11 @@ class _CartScreenState extends State<CartScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withAlpha((255 * 0.05).toInt()),
+                          color: Theme.of(context).shadowColor.withOpacity(0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -103,10 +103,10 @@ class _CartScreenState extends State<CartScreen> {
                           height: 80,
                           width: 80,
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Icon(Icons.image, color: Colors.grey),
+                          child: Icon(Icons.image, color: Theme.of(context).disabledColor),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -165,11 +165,11 @@ class _CartScreenState extends State<CartScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).cardColor,
               borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha((255 * 0.05).toInt()),
+                  color: Theme.of(context).shadowColor.withOpacity(0.05),
                   blurRadius: 20,
                   offset: const Offset(0, -5),
                 ),
