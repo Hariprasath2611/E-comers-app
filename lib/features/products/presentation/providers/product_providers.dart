@@ -4,10 +4,10 @@ import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
-import '../../data/repositories/product_repository_impl.dart';
+import '../../data/repositories/mock_product_repository.dart';
 
 final productRepositoryProvider = Provider<ProductRepository>((ref) {
-  return ProductRepositoryImpl(FirebaseFirestore.instance);
+  return MockProductRepository();
 });
 
 final productsProvider = FutureProvider<List<Product>>((ref) async {

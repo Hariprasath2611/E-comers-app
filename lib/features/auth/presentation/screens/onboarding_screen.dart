@@ -41,7 +41,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Align(
               alignment: Alignment.topRight,
               child: TextButton(
-                onPressed: () => context.go('/login'),
+                onPressed: () => context.go('/home'),
                 child: const Text('Skip'),
               ),
             ),
@@ -112,7 +112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   const SizedBox(height: 32),
                   PrimaryButton(
-                    text: _currentPage == _pages.length - 1 ? 'Get Started' : 'Next',
+                    text: _currentPage == _pages.length - 1 ? 'Start Browsing' : 'Next',
                     onPressed: () {
                       if (_currentPage < _pages.length - 1) {
                         _pageController.nextPage(
@@ -120,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           curve: Curves.easeInOut,
                         );
                       } else {
-                        context.go('/login');
+                        context.go('/home');
                       }
                     },
                   ),

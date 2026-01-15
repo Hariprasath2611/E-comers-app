@@ -41,9 +41,12 @@ class ProductCard extends StatelessWidget {
                 child: Container(
                   color: Colors.grey[100],
                   width: double.infinity,
-                  child: Icon(Icons.image, size: 50, color: Colors.grey[300]),
-                  // TODO: Use Image.network with cached_network_image
-                  // child: Image.network(imageUrl, fit: BoxFit.cover),
+                  child: imageUrl.isNotEmpty
+                      ? Image.network(imageUrl, fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                          return Icon(Icons.broken_image, size: 50, color: Colors.grey[300]);
+                        })
+                      : Icon(Icons.image, size: 50, color: Colors.grey[300]),
                 ),
               ),
             ),

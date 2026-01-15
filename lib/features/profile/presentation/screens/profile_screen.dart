@@ -41,56 +41,72 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    user?.displayName ?? 'User',
+                    user?.displayName ?? 'Guest User',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                   ),
                   const SizedBox(height: 4),
-                  Text(user?.email ?? 'No Email', style: Theme.of(context).textTheme.bodyMedium),
+                  if (user != null)
+                    Text(user.email ?? 'No Email', style: Theme.of(context).textTheme.bodyMedium)
+                  else
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: TextButton.icon(
+                        onPressed: () => context.push('/login'),
+                        icon: const Icon(Icons.login),
+                        label: const Text('Login / Sign Up'),
+                      ),
+                    ),
                 ],
               ),
             ).animate().scale(),
             const SizedBox(height: 32),
+            if (user != null) ...[
+              _buildProfileTile(
+                context,
+                icon: Icons.list_alt,
+                title: 'My Orders',
+                onTap: () => context.push('/orders'),
+              ),
+              _buildProfileTile(
+                context,
+                icon: Icons.location_on_outlined,
+                title: 'Shipping Address',
+                onTap: () {},
+              ),
+              _buildProfileTile(
+                context,
+                icon: Icons.payment_outlined,
+                title: 'Payment Methods',
+                onTap: () {},
+              ),
+              _buildProfileTile(
+                context,
+                icon: Icons.favorite_outline,
+                title: 'Wishlist',
+                onTap: () => context.go('/wishlist'),
+              ),
+            ],
             _buildProfileTile(
-              context,
-              icon: Icons.list_alt,
-              title: 'My Orders',
-              onTap: () => context.push('/orders'),
-            ),
-             _buildProfileTile(
-              context,
-              icon: Icons.location_on_outlined,
-              title: 'Shipping Address',
-              onTap: () {},
-            ),
-             _buildProfileTile(
-              context,
-              icon: Icons.payment_outlined,
-              title: 'Payment Methods',
-              onTap: () {},
-            ),
-             _buildProfileTile(
-              context,
-              icon: Icons.favorite_outline,
-              title: 'Wishlist',
-              onTap: () => context.go('/wishlist'),
-            ),
-             _buildProfileTile(
               context,
               icon: Icons.help_outline,
               title: 'Help & Support',
               onTap: () {},
             ),
             const SizedBox(height: 24),
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text('Logout', style: TextStyle(color: Colors.red)),
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
-                if (context.mounted) context.go('/login');
-              },
-            ),
+            if (user != null) ...[
+              const SizedBox(height: 24),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.red),
+                title: const Text('Logout', style: TextStyle(color: Colors.red)),
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
+                  // No navigation needed, listener will rebuild UI or we can refresh
+                  // Actually, just staying on Profile (Guest) is fine, or go Home
+                },
+              ),
+            ],
           ],
         ),
       ),

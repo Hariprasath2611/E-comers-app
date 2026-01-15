@@ -34,7 +34,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           (failure) => ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(failure.message), backgroundColor: Colors.red),
           ),
-          (user) => context.go('/home'),
+          (user) {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/home');
+            }
+          },
         );
       }
     }

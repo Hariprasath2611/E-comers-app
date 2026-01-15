@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/widgets/primary_button.dart';
 
 class CartScreen extends StatefulWidget {
@@ -192,7 +193,13 @@ class _CartScreenState extends State<CartScreen> {
                 const SizedBox(height: 24),
                 PrimaryButton(
                   text: 'Checkout',
-                  onPressed: () => context.push('/checkout'),
+                  onPressed: () {
+                    if (FirebaseAuth.instance.currentUser != null) {
+                      context.push('/checkout');
+                    } else {
+                      context.push('/login');
+                    }
+                  },
                 ),
               ],
             ),
