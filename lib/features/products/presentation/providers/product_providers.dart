@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce_app/features/products/data/repositories/product_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failures.dart';
@@ -7,7 +8,7 @@ import '../../domain/repositories/product_repository.dart';
 import '../../data/repositories/mock_product_repository.dart';
 
 final productRepositoryProvider = Provider<ProductRepository>((ref) {
-  return MockProductRepository();
+  return ProductRepositoryImpl(FirebaseFirestore.instance);
 });
 
 final productsProvider = FutureProvider<List<Product>>((ref) async {

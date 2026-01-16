@@ -33,6 +33,16 @@ class _AdminProductsScreenState extends ConsumerState<AdminProductsScreen> {
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               ElevatedButton.icon(
+                onPressed: () => _seedDatabase(context, ref),
+                icon: const Icon(Icons.cloud_upload),
+                label: const Text('Seed DB'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton.icon(
                 onPressed: () => _showAddEditDialog(context),
                 icon: const Icon(Icons.add),
                 label: const Text('Add Product'),
@@ -174,5 +184,123 @@ class _AdminProductsScreenState extends ConsumerState<AdminProductsScreen> {
         ],
       ),
     );
+  }
+
+
+  Future<void> _seedDatabase(BuildContext context, WidgetRef ref) async {
+    // Initial seed data
+    final List<ProductModel> seedProducts = [
+      const ProductModel(
+        id: '1',
+        title: 'Fintech Dashboard',
+        description: 'Category: ui-kits. Tech: Figma File.',
+        price: 15.00,
+        imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
+        stock: 10,
+      ),
+      const ProductModel(
+        id: '2',
+        title: 'Sci-Fi Weapon Pack',
+        description: 'Category: 3d-models. Tech: Blender File.',
+        price: 34.00,
+        imageUrl: 'https://images.unsplash.com/photo-1614332287897-cdc485fa562d?auto=format&fit=crop&w=600&q=80',
+        stock: 5,
+      ),
+      const ProductModel(
+        id: '3',
+        title: 'karthick',
+        description: 'Category: websites. Tech: react.',
+        price: 46.00,
+        imageUrl: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80',
+        stock: 8,
+      ),
+      const ProductModel(
+        id: '4',
+        title: 'Crypto Exchange Script',
+        description: 'Category: scripts. Tech: NodeJS / Mongo.',
+        price: 120.00,
+        imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80',
+        stock: 3,
+      ),
+      const ProductModel(
+        id: '5',
+        title: '2D Platformer Kit',
+        description: 'Category: games. Tech: Unity Package.',
+        price: 19.99,
+        imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80',
+        stock: 20,
+      ),
+      const ProductModel(
+        id: '6',
+        title: 'Cyberpunk Character',
+        description: 'Category: 3d-models. Tech: .OBJ / .FBX.',
+        price: 55.00,
+        imageUrl: 'https://images.unsplash.com/photo-1635322966219-b75ed372eb01?auto=format&fit=crop&w=600&q=80',
+        stock: 7,
+      ),
+      const ProductModel(
+        id: '7',
+        title: 'Fitness Tracker UI',
+        description: 'Category: apps. Tech: Swift / iOS.',
+        price: 24.00,
+        imageUrl: 'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=600&q=80',
+        stock: 12,
+      ),
+      const ProductModel(
+        id: '8',
+        title: 'SaaS Landing Page',
+        description: 'Category: websites. Tech: React / Tailwind.',
+        price: 29.00,
+        imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+        stock: 15,
+      ),
+      const ProductModel(
+        id: '9',
+        title: 'Food Delivery App',
+        description: 'Category: apps. Tech: Flutter / Dart.',
+        price: 45.00,
+        imageUrl: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&q=80',
+        stock: 6,
+      ),
+      const ProductModel(
+        id: '10',
+        title: 'RPG Environment',
+        description: 'Category: games. Tech: Unreal Engine 5.',
+        price: 89.99,
+        imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80',
+        stock: 4,
+      ),
+    ];
+
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    
+    try {
+      showDialog(
+        context: context, 
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator())
+      );
+
+      final repository = ref.read(productRepositoryProvider);
+      
+      for (final product in seedProducts) {
+        await repository.addProduct(product);
+      }
+      
+      if (context.mounted) {
+        Navigator.pop(context); // Pop loading
+        scaffoldMessenger.showSnackBar(
+          const SnackBar(content: Text('Database seeded successfully!')),
+        );
+        ref.refresh(productsProvider);
+      }
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.pop(context); // Pop loading
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text('Error seeding database: $e')),
+        );
+      }
+    }
   }
 }
